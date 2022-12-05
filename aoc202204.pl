@@ -24,17 +24,24 @@ contained_within((FirstLower, FirstUpper, SecondLower, SecondUpper)) :-
 contained_within((FirstLower, FirstUpper, SecondLower, SecondUpper)) :-
    SecondLower =< FirstLower, SecondUpper >= FirstUpper.
 
-% Predicate that is true once for each time an assignment matches the contained_within
-% predicate
-valid_assignment(Assignments) :-
+% Predicate to check whether one elf's assignment overlaps with the other's
+overlaps((FirstLower, FirstUpper, SecondLower, _)) :-
+   FirstLower =< SecondLower, FirstUpper >= SecondLower, !.
+overlaps((FirstLower, _, SecondLower, SecondUpper)) :-
+   SecondLower =< FirstLower, SecondUpper >= FirstLower.
+
+% Predicate that is true once for each time an assignment matches the predicate
+valid_assignment(Assignments, Predicate) :-
    member(Assignment, Assignments),
-   contained_within(Assignment).
+   call(Predicate, Assignment).
 
 % Count the total number of assignments where one elf's is contained within the other's
-count_valid_assignments(Count) :-
+count_valid_assignments(Count, Predicate) :-
    phrase_from_file(assignments(Assignments), 'aoc202204.txt'),
-   aggregate_all(count, valid_assignment(Assignments), Count).
+   aggregate_all(count, valid_assignment(Assignments, Predicate), Count).
 
-:- count_valid_assignments(Count),
-   write(Count), nl,
+:- count_valid_assignments(WithinCount, contained_within),
+   write(WithinCount), nl,
+   count_valid_assignments(OverlapCount, overlaps),
+   write(OverlapCount), nl,
    halt.
