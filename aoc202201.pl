@@ -12,13 +12,16 @@ elves([Elf|Elves]) --> elf(Elf), elves(Elves).
 elf([])            --> ( eol; eos ), !.
 elf([Item|Items])  --> integer(Item), eol, elf(Items).
 
-% Map the sum over the list of elves; find the maximum in the list
-highest_calories(Calories) :-
+% Map the sum over the list of elves; sort the results
+highest_calories(CaloriesList) :-
    phrase_from_file(elves(ElvesList), 'aoc202201.txt'),
    maplist(sum_list, ElvesList, ElvesSums),
-   max_list(ElvesSums, Calories).
+   sort(0, @>=, ElvesSums, CaloriesList).
 
-:- highest_calories(Calories),
-   write(Calories),
+:- highest_calories([Calories1, Calories2, Calories3|_]),
+   write(Calories1),
+   nl,
+   Total is Calories1 + Calories2 + Calories3,
+   write(Total),
    nl,
    halt.
