@@ -9,7 +9,7 @@
 elves([])          --> eos, !.
 elves([Elf|Elves]) --> elf(Elf), elves(Elves).
 
-elf([])            --> ( "\n"; eos ), !.
+elf([])            --> ( eol; eos ), !.
 elf([Item|Items])  --> integer(Item), eol, elf(Items).
 
 % Map the sum over the list of elves; find the maximum in the list
