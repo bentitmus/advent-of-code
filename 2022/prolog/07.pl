@@ -65,7 +65,7 @@ smallest_size_for_commands(Commands, SmallestSize) :-
    find_sizes(RootNode, >=, NeedSize, Sizes),
    min_list(Sizes, SmallestSize).
 
-:- phrase_from_file(commands(Commands), 'aoc202207.txt'),
+:- phrase_from_file(commands(Commands), '../input/07.txt'),
    sizes_sum_for_commands(Commands, TotalSize),
    writeln(TotalSize),
    smallest_size_for_commands(Commands, SmallestSize),

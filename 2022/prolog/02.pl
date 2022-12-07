@@ -38,7 +38,7 @@ score_second((Opponent, Strategy), Score) :-
 
 % Determine the score if a given algorithm is used for each match
 total_score(AlgorithmForMatch, Score) :-
-   phrase_from_file(matches(MatchesChars), 'aoc202202.txt'),
+   phrase_from_file(matches(MatchesChars), '../input/02.txt'),
    maplist(transform_score, MatchesChars, Matches),
    maplist(AlgorithmForMatch, Matches, MatchesScores),
    sum_list(MatchesScores, Score).
