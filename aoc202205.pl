@@ -1,28 +1,35 @@
 % Advent of Code 2022 - Day 5
-:- use_module(library(dcg/basics)).
-:- use_module(library(pio),       [phrase_from_file/2]).
-:- use_module(library(apply),     [maplist/3, foldl/4]).
-:- use_module(library(clpfd),     [transpose/2]).
+:- use_module(library(dcg/basics),     [eol/2, nonblank/3, whites/2, integer/3, eos/2]).
+:- use_module(library(dcg/high_order), [optional/4]).
+:- use_module(library(pio),            [phrase_from_file/2]).
+:- use_module(library(apply),          [maplist/3, foldl/4]).
+:- use_module(library(clpfd),          [transpose/2]).
 
 % DCG for input file to extract an initial crates set-up and the moves that need to be applied
 % Crates is a list where each item in the list is a list from top to bottom of the crates in that
 % column
 % Moves is a list of moves which are three tuples with the number of crates to move, the from
 % column, and the to column (both 1 indexed)
-puzzle(Crates, Moves)            --> all_crates(Crates), eol, moves(Moves).
+puzzle(Crates, Moves)             --> optional(eol, {true}),
+                                      all_crates(Crates),
+                                      prefix, eol,
+                                      moves(Moves).
+prefix_content                    --> whites, "|".
+prefix                            --> optional(prefix_content, {true}).
 
-crate(0)                         --> "   ".
-crate(Crate)                     --> "[", nonblank(Crate), "]".
-crates_line([Crate|Crates])      --> crate(Crate), " ", crates_line(Crates), !.
-crates_line([Crate])             --> crate(Crate).
-crates([CratesLine|CratesLines]) --> crates_line(CratesLine), eol, crates(CratesLines).
-crates([CratesLine])             --> crates_line(CratesLine), eol.
-numbers_line                     --> whites, eol.
-numbers_line                     --> whites, integer(_), numbers_line.
-all_crates(Crates)               --> crates(Crates), numbers_line.
+crate(0)                          --> "   ".
+crate(Crate)                      --> "[", nonblank(Crate), "]".
+crates_line([Crate|Crates])       --> crate(Crate), " ", crates_line(Crates), !.
+crates_line([Crate])              --> crate(Crate).
+crates([CratesLine|CratesLines])  --> prefix, crates_line(CratesLine), eol, crates(CratesLines).
+crates([CratesLine])              --> prefix, crates_line(CratesLine), eol.
+numbers_line                      --> prefix, whites, eol.
+numbers_line                      --> prefix, whites, integer(_), numbers_line.
+all_crates(Crates)                --> crates(Crates), numbers_line.
 
-moves([])                         --> eos.
+moves([])                         --> whites, eos.
 moves([(Number, From, To)|Moves]) -->
+   prefix,
    "move ", integer(Number),
    " from ", integer(From),
    " to ", integer(To),
@@ -79,18 +86,62 @@ apply_moves(Permuter, Crates, Moves, FinalCrates) :-
    foldl(exec_move, Moves, (Permuter, Crates), (_, FinalCrates)).
 
 % Helper predicate to extract the first item from each list
-first_item(List, Item) :- member(Item, List).
+first_item([Item|_], Item).
 
 % Determine the final "top" crates for the given permuter predicate, giving the string as an output
-final_crates(Permuter, String) :-
-   phrase_from_file(puzzle(RawCrates, Moves), 'aoc202205.txt'),
+final_crates(RawCrates, Moves, Permuter, String) :-
    prepare_crates(RawCrates, Crates),
    apply_moves(Permuter, Crates, Moves, FinalCrates),
    maplist(first_item, FinalCrates, FinalItems),
    string_codes(String, FinalItems).
 
-:- final_crates(reverse, CrateMover9000),
-   write(CrateMover9000), nl,
-   final_crates(=, CrateMover9001),
-   write(CrateMover9001), nl,
-   halt.
+final_crates_from_file(Permuter, String) :-
+   phrase_from_file(puzzle(RawCrates, Moves), 'aoc202205.txt'),
+   final_crates(RawCrates, Moves, Permuter, String).
+
+:- final_crates_from_file(reverse, CrateMover9000),
+   writeln(CrateMover9000),
+   final_crates_from_file(=, CrateMover9001),
+   writeln(CrateMover9001).
+
+:- begin_tests(aoc202205).
+
+% Support quasi quotations for crates
+:- use_module(library(quasi_quotations), [phrase_from_quasi_quotation/2]).
+:- quasi_quotation_syntax(crates_listing).
+crates_listing(Content, _Vars, _Dict, (Crates, Moves)) :-
+   phrase_from_quasi_quotation(puzzle(Crates, Moves), Content).
+
+test(craneMover9000_listing) :-
+   (Crates, Moves) = {|crates_listing||
+                      |    [D]    
+                      |[N] [C]    
+                      |[Z] [M] [P]
+                      | 1   2   3
+                      |
+                      |move 1 from 2 to 1
+                      |move 3 from 1 to 3
+                      |move 2 from 2 to 1
+                      |move 1 from 1 to 2
+                      |},
+   final_crates(Crates, Moves, reverse, "CMZ").
+
+test(crateMover9001_listing) :-
+   (Crates, Moves) = {|crates_listing||
+                      |    [D]    
+                      |[N] [C]    
+                      |[Z] [M] [P]
+                      | 1   2   3
+                      |
+                      |move 1 from 2 to 1
+                      |move 3 from 1 to 3
+                      |move 2 from 2 to 1
+                      |move 1 from 1 to 2
+                      |},
+   final_crates(Crates, Moves, =, "MCD").
+
+:- end_tests(aoc202205).
+
+:- run_tests(aoc202205).
+
+:- halt.

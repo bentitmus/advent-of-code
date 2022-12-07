@@ -1,20 +1,18 @@
 % Advent of Code 2022 - Day 7
-:- module(aoc202207, []).
-
 :- use_module(library(dcg/basics),     [eos/2, eol/2, whites/2, string_without/4, integer/3]).
 :- use_module(library(dcg/high_order), [sequence/4]).
 :- use_module(library(pio),            [phrase_from_file/2]).
 
 % DCG for input file to extract a list of commands and their output
-commands([]) --> eos, !.
-commands(Commands) --> whites, eol, commands(Commands).
+commands([])                 --> eos, !.
+commands(Commands)           --> whites, eol, commands(Commands).
 commands([Command|Commands]) --> whites, command(Command), commands(Commands).
 
 command(cd(Directory)) --> "$ cd ", string_without("\n", DirectoryCodes), {string_codes(Directory, DirectoryCodes)}, eol.
-command(ls(Listing)) --> "$ ls", eol, sequence(listing, Listing).
+command(ls(Listing))   --> "$ ls", eol, sequence(listing, Listing).
 
 listing(file(Name, Size)) --> whites, integer(Size), " ", string_without("\n", NameCodes), {string_codes(Name, NameCodes)}, eol.
-listing(dir(Name)) --> whites, "dir ", string_without("\n", NameCodes), {string_codes(Name, NameCodes)}, eol.
+listing(dir(Name))        --> whites, "dir ", string_without("\n", NameCodes), {string_codes(Name, NameCodes)}, eol.
 
 % Execute commands to construct tree
 node_listing(file(Name, Size), file(Name, Size)).

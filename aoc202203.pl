@@ -10,7 +10,7 @@
 rucksacks([]) --> eos, !.
 rucksacks([Rucksack|Rucksacks]) --> rucksack(Rucksack), rucksacks(Rucksacks).
 
-rucksack([]) --> ( eol; eos ), !.
+rucksack([]) --> eol, !.
 rucksack([Item|Items]) --> nonblank(Item), rucksack(Items).
 
 % DCG where these are organised by groups of three elves

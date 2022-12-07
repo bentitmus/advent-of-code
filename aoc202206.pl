@@ -4,12 +4,10 @@
 :- use_module(library(clpfd),      [all_distinct/1]).
 
 % DCG for input file to extract a list of char codes
-
 char_codes([])           --> eol, eos, !.
 char_codes([Code|Codes]) --> nonblank(Code), char_codes(Codes).
 
 % Find the first index at which the N previously received consecutive characters are unique
-
 find_unique_sequence(SequenceLength, List, Index, Index) :-
    length(Sequence, SequenceLength),
    append(Sequence, _, List),
@@ -27,9 +25,9 @@ unique_sequence_index(SequenceLength, Index) :-
    find_unique_sequence(SequenceLength, CharCodeList, Index).
 
 :- unique_sequence_index(4, ShortIndex),
-   write(ShortIndex), nl,
+   writeln(ShortIndex),
    unique_sequence_index(14, LongIndex),
-   write(LongIndex), nl.
+   writeln(LongIndex).
 
 % Examples to test the main predicate
 :- begin_tests(aoc202206).
