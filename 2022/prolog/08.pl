@@ -1,5 +1,5 @@
 % Advent of Code 2022 - Day 8
-:- use_module(library(dcg/basics), [eos/2, eol/2, nonblank/3]).
+:- use_module(library(dcg/basics), [eos//0, eol//0, nonblank//1]).
 :- use_module(library(pio),        [phrase_from_file/2]).
 :- use_module(library(clpfd),      [transpose/2]).
 
@@ -10,30 +10,18 @@ trees([TreeLine|RestOfTrees]) --> tree_line(TreeLine), trees(RestOfTrees).
 tree_line([])                 --> eol, !.
 tree_line([Tree|RestOfTrees]) --> nonblank(TreeCode), {Tree is TreeCode - 48}, tree_line(RestOfTrees).
 
-% Predicate to check that all elements in list are the same
-all_same(_, []) :- !.
-all_same(H, [H|T]) :- all_same(H, T).
-
-% Predicate to check that a given list has the same length as another, but all duplicate items
-extend_to_length(Value, ListOfRequiredLength, ValueList) :-
-   length(ListOfRequiredLength, Length),
-   length(ValueList, Length),
-   all_same(Value, ValueList).
-
 % Recursively check that a given predicate gives a particular value for visibility to a given tree
 % Checks from left to right in a single tree line, and takes an accumulator which is passed to the update
 % predicate
-check_visible(_, [], _, []) :- !.
-check_visible(UpdatePredicate, [Tree|RestOfTrees], Accumulator, [(Height, NewVisibility)|UpdatedRestOfTrees]) :-
+check_visible(_, _, [], []) :- !.
+check_visible(UpdatePredicate, Accumulator, [Tree|RestOfTrees], [(Height, NewVisibility)|UpdatedRestOfTrees]) :-
    Tree = (Height, _),
    call(UpdatePredicate, Tree, Accumulator, NewVisibility, NewAccumulator),
-   check_visible(UpdatePredicate, RestOfTrees, NewAccumulator, UpdatedRestOfTrees).
+   check_visible(UpdatePredicate, NewAccumulator, RestOfTrees, UpdatedRestOfTrees).
 
 % Checks the update predicate on all tree rows in a given forest, from left to right
 check_all_visible(UpdatePredicate, UpdateAccumulator, TreeRows, UpdatedTreeRows) :-
-   extend_to_length(UpdatePredicate, TreeRows, UpdatePredicateList),
-   extend_to_length(UpdateAccumulator, TreeRows, UpdateAccumulatorList),
-   maplist(check_visible, UpdatePredicateList, TreeRows, UpdateAccumulatorList, UpdatedTreeRows).
+   maplist(check_visible(UpdatePredicate, UpdateAccumulator), TreeRows, UpdatedTreeRows).
 
 % Checks the update predicate on all tree rows in a given forest, from all angles
 check_all_angles(UpdatePredicate, UpdateAccumulator, Trees, UpdatedTrees) :-
@@ -59,8 +47,7 @@ extract_visibility([(_, Visibility)|Rest], [Visibility|UpdatedRest]) :-
 % Applies the update predicate to all trees in the forest using check_visible/4 and then applies an
 % accumulator predicate returning the single result
 apply_scoring(Trees, DefaultVisibility, UpdatePredicate, UpdateAccumulator, AccumulationPredicate, Result) :-
-   extend_to_length(DefaultVisibility, Trees, DefaultVisibilities),
-   maplist(add_visibility, DefaultVisibilities, Trees, TreesWithVisibility), !,
+   maplist(add_visibility(DefaultVisibility), Trees, TreesWithVisibility), !,
    check_all_angles(UpdatePredicate, UpdateAccumulator, TreesWithVisibility, UpdatedTrees),
    flatten(UpdatedTrees, FlatTrees),
    extract_visibility(FlatTrees, Visibilities),
@@ -94,6 +81,10 @@ update_scenic_score((Height, ScenicScore), TreeScores, NewScenicScore, NewTreeSc
    update_tree_scores(Height, 0, TreeScores, NewTreeScores, HeightScore), !,
    NewScenicScore is ScenicScore * HeightScore.
 
+% Predicate to check that all elements in list are the same
+all_same(_, []) :- !.
+all_same(H, [H|T]) :- all_same(H, T).
+
 % Determines the greatest scenic score
 max_scenic_score(Trees, MaxScore) :-
    length(TreeScores, 10),
@@ -110,7 +101,7 @@ max_scenic_score(Trees, MaxScore) :-
 :- begin_tests(aoc202208).
 
 test(single_row_visibility_from_left) :-
-   check_visible(update_visibility_los, [(1,0), (3,0), (2,0), (1,0), (9,0)], -1, [(1,1), (3,1), (2,0), (1,0), (9,1)]).
+   check_visible(update_visibility_los, -1, [(1,0), (3,0), (2,0), (1,0), (9,0)], [(1,1), (3,1), (2,0), (1,0), (9,1)]).
 
 test(all_rows_visibility_from_left) :-
    check_all_visible(update_visibility_los, -1, [
