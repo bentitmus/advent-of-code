@@ -2,6 +2,7 @@
 :- use_module(library(dcg/basics), [eos//0, eol//0, nonblank//1]).
 :- use_module(library(pio),        [phrase_from_file/2]).
 :- use_module(library(clpfd),      [transpose/2]).
+:- use_module(library(yall)).
 
 % DCG for input file to return a list of tree lines which are a list of height of trees
 trees([])                     --> eos, !.
@@ -33,24 +34,13 @@ check_all_angles(UpdatePredicate, UpdateAccumulator, Trees, UpdatedTrees) :-
    maplist(reverse, TreesTop, TreesTransposedReversed),
    check_all_visible(UpdatePredicate, UpdateAccumulator, TreesTransposedReversed, UpdatedTrees).
 
-% Adds the 'visibility' value to all trees in the tree line which will be updated by the check_visible/4
-% predicate
-add_visibility(_, [], []).
-add_visibility(Visibility, [Height|Rest], [(Height, Visibility)|UpdatedRest]) :-
-   add_visibility(Visibility, Rest, UpdatedRest).
-
-% Extracts the 'visibility' value from all trees in the tree line
-extract_visibility([], []).
-extract_visibility([(_, Visibility)|Rest], [Visibility|UpdatedRest]) :-
-   extract_visibility(Rest, UpdatedRest).
-
 % Applies the update predicate to all trees in the forest using check_visible/4 and then applies an
 % accumulator predicate returning the single result
 apply_scoring(Trees, DefaultVisibility, UpdatePredicate, UpdateAccumulator, AccumulationPredicate, Result) :-
-   maplist(add_visibility(DefaultVisibility), Trees, TreesWithVisibility), !,
+   maplist(maplist({DefaultVisibility}/[Tree, (Tree, DefaultVisibility)]>>true), Trees, TreesWithVisibility), !,
    check_all_angles(UpdatePredicate, UpdateAccumulator, TreesWithVisibility, UpdatedTrees),
    flatten(UpdatedTrees, FlatTrees),
-   extract_visibility(FlatTrees, Visibilities),
+   maplist([(_, Visibility), Visibility]>>true, FlatTrees, Visibilities),
    call(AccumulationPredicate, Visibilities, Result).
 
 % Update predicate to determine whether the tree is visible from the edge of the forest
