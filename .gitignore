@@ -1,2 +1,4 @@
 */input/**
 session.txt
+.build
+.DS_Store
