@@ -73,7 +73,7 @@ start(Length, Chain) :-
    length(Chain, Length),
    maplist([(0, 0)]>>true, Chain).
 
-:- phrase_from_file(moves(Moves), '../input/day09.txt'),
+:- phrase_from_file(moves(Moves), '2022/input/day09.txt'),
    count_unique_positions(2, Moves, CountWith2Knots),
    writeln(CountWith2Knots),
    count_unique_positions(10, Moves, CountWith10Knots),

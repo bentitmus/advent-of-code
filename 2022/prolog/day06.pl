@@ -21,7 +21,7 @@ find_unique_sequence(SequenceLength, List, Index) :-
 
 % Get unique sequence index for the AoC input file for a given sequence length
 unique_sequence_index(SequenceLength, Index) :-
-   phrase_from_file(char_codes(CharCodeList), '../input/day06.txt'),
+   phrase_from_file(char_codes(CharCodeList), '2022/input/day06.txt'),
    find_unique_sequence(SequenceLength, CharCodeList, Index).
 
 :- unique_sequence_index(4, ShortIndex),

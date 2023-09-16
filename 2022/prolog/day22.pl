@@ -175,7 +175,7 @@ part2_connections(Connections) :-
       ((3, down), (4, down),  (1, up),    (0, up))
    ].
 
-:- phrase_from_file(maze_directions(Maze, Directions), '../input/day22.txt'),
+:- phrase_from_file(maze_directions(Maze, Directions), '2022/input/day22.txt'),
    part1_connections(Connections1),
    add_connections(Maze, Connections1, Maze1),
    compute_password(Maze1, Directions, Password1),

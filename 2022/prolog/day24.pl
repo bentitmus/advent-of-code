@@ -68,7 +68,7 @@ bfs(BlizzardsList, StartPoint, EndPoint, Index, EndList) :-
    free_spaces(BlizzardsList, FreeSpaces),
    bfs_next(BlizzardsList, FreeSpaces, EndPoint, 0, [0-StartPoint], Index, EndList), !.
 
-:- phrase_from_file(blizzards(BlizzardsList), '../input/day24.txt'),
+:- phrase_from_file(blizzards(BlizzardsList), '2022/input/day24.txt'),
    step_blizzards((35, 100)-BlizzardsList, NextBlizzardsList),
    bfs(NextBlizzardsList, (-1, 0), (35, 99), IndexTrip1, TmpTree1),
    writeln(IndexTrip1),

@@ -101,7 +101,7 @@ cleanup :-
    retractall(point(_, _)),
    retractall(end(_)).
 
-:- phrase_from_file(blocks(Blocks), '../input/day14.txt'),
+:- phrase_from_file(blocks(Blocks), '2022/input/day14.txt'),
    transform_blocks_to_lines(Blocks, Lines),
    make_points(Lines),
    make_end(Lines),

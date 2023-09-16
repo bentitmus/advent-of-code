@@ -51,7 +51,7 @@ adjust_coord((Item, Index), (AdjustedItem, Index)) :-
 adjust_coords(List, AdjustedList) :-
    maplist(adjust_coord, List, AdjustedList).
 
-:- phrase_from_file(numbers(List), '../input/day20.txt'),
+:- phrase_from_file(numbers(List), '2022/input/day20.txt'),
    mix_and_get_coords(1, List, Sum),
    writeln(Sum),
    adjust_coords(List, AdjustedList),

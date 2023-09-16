@@ -46,7 +46,7 @@ priority(Letter, Priority) :-
 
 % Calculate the priority sum for a given DCG grammar with a given duplicate detection predicate
 priority_sum(Grammar, List, DuplicatePred, Sum) :-
-   phrase_from_file(Grammar, '../input/day03.txt'),
+   phrase_from_file(Grammar, '2022/input/day03.txt'),
    maplist(DuplicatePred, List, DuplicatesList),
    maplist(priority, DuplicatesList, PriorityList),
    sumlist(PriorityList, Sum).

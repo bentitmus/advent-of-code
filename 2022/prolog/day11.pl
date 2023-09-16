@@ -112,7 +112,7 @@ update_worry_div_3(Worry, NewWorry) :-
 update_worry_mod_divisor(Divisor, Worry, NewWorry) :-
    NewWorry is Worry mod Divisor.
 
-:- phrase_from_file(monkeys(Monkeys), '../input/day11.txt'),
+:- phrase_from_file(monkeys(Monkeys), '2022/input/day11.txt'),
    rounds(update_worry_div_3, 20, Monkeys, MonkeysAfterDiv3),
    most_active_sum(MonkeysAfterDiv3, SumAfterDiv3),
    writeln(SumAfterDiv3),

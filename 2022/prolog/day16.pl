@@ -119,7 +119,7 @@ find_most_with_elephant(Valves, MostPressure) :-
    findall(Value, find_pair(AllPressures, Value), AllValues),
    max_list(AllValues, MostPressure).
 
-:- phrase_from_file(valves(Valves), '../input/day16.txt'),
+:- phrase_from_file(valves(Valves), '2022/input/day16.txt'),
    find_most_pressure(Valves, MostPressure),
    writeln(MostPressure),
    find_most_with_elephant(Valves, MostPressureWithElephant),

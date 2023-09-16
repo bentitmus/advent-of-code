@@ -55,10 +55,10 @@ find_marker_index_sum(Items, MarkerIndexSum) :-
    nth1(Index6, SortedItems, [[6]]),
    MarkerIndexSum is Index2 * Index6, !.
 
-:- phrase_from_file(pairs(Pairs), '../input/day13.txt'),
+:- phrase_from_file(pairs(Pairs), '2022/input/day13.txt'),
    sum_indices_where_first_less_than(Pairs, SumOfIndices),
    writeln(SumOfIndices),
-   phrase_from_file(all_items(Items), '../input/13.txt'),
+   phrase_from_file(all_items(Items), '2022/input/day13.txt'),
    find_marker_index_sum(Items, MarkerIndexSum),
    writeln(MarkerIndexSum).
 

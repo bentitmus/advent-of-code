@@ -1,5 +1,5 @@
 let sortedElves =
-    System.IO.File.ReadAllText "../input/day01.txt"
+    System.IO.File.ReadAllText "2022/input/day01.txt"
     |> fun x -> x.TrimEnd()
     |> fun x -> x.Split "\n\n"
     |> Array.map (fun x -> x.Split "\n" |> Array.map int |> Array.sum)

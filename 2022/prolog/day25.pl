@@ -51,7 +51,7 @@ compute_snafu_sum(SnafuStrings, SnafuSum) :-
    sum_list(Numbers, Sum),
    snafu_number(SnafuSum, Sum).
 
-:- phrase_from_file(snafu_strings(SnafuStrings), '../input/day25.txt'),
+:- phrase_from_file(snafu_strings(SnafuStrings), '2022/input/day25.txt'),
    compute_snafu_sum(SnafuStrings, SnafuSum),
    writeln(SnafuSum).
 

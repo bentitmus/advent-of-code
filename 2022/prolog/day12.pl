@@ -113,7 +113,7 @@ extract_positions(HeightMapWithPoints, HeightMap, StartPos, EndPos) :-
    find_and_replace_item(HeightMapWithPoints, start, (0, unknown), StartPos, UpdatedHeightMap),
    find_and_replace_item(UpdatedHeightMap, end, (25, unknown), EndPos, HeightMap).
 
-:- phrase_from_file(height_map(HeightMapWithPoints), '../input/day12.txt'),
+:- phrase_from_file(height_map(HeightMapWithPoints), '2022/input/day12.txt'),
    extract_positions(HeightMapWithPoints, HeightMap, StartPos, EndPos),
    min_route(HeightMap, StartPos, EndPos, MinRouteFromStart),
    writeln(MinRouteFromStart),

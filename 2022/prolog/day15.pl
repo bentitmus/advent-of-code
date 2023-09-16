@@ -87,7 +87,7 @@ find_tuning_freq(MaxRange, SensorBeaconList, TuningFreq) :-
    find_x_y(SensorBeaconList, MaxRange, (X, Y)),
    TuningFreq is (4000000 * X) + Y.
 
-:- phrase_from_file(data(SensorBeaconList), '../input/day15.txt'),
+:- phrase_from_file(data(SensorBeaconList), '2022/input/day15.txt'),
    count_no_beacon(2000000, SensorBeaconList, NumberNoBeacon),
    writeln(NumberNoBeacon),
    find_tuning_freq(4000000, SensorBeaconList, TuningFreq),

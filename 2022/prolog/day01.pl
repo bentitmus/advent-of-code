@@ -14,7 +14,7 @@ elf([Item|Items])  --> integer(Item), eol, elf(Items).
 
 % Map the sum over the list of elves; sort the results
 highest_calories(CaloriesList) :-
-   phrase_from_file(elves(ElvesList), '../input/day01.txt'),
+   phrase_from_file(elves(ElvesList), '2022/input/day01.txt'),
    maplist(sum_list, ElvesList, ElvesSums),
    sort(0, @>=, ElvesSums, CaloriesList).
 

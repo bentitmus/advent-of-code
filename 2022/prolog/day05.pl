@@ -96,7 +96,7 @@ final_crates(RawCrates, Moves, Permuter, String) :-
    string_codes(String, FinalItems).
 
 final_crates_from_file(Permuter, String) :-
-   phrase_from_file(puzzle(RawCrates, Moves), '../input/day05.txt'),
+   phrase_from_file(puzzle(RawCrates, Moves), '2022/input/day05.txt'),
    final_crates(RawCrates, Moves, Permuter, String).
 
 :- final_crates_from_file(reverse, CrateMover9000),

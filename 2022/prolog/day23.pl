@@ -107,7 +107,7 @@ rounds_until_idempotent(Num, _, Num).
 rounds_until_idempotent(Positions, Num) :-
    rounds_until_idempotent(1, (Positions, [n, s, w, e]), Num).
 
-:- phrase_from_file(elves(Positions), '../input/day23.txt'),
+:- phrase_from_file(elves(Positions), '2022/input/day23.txt'),
    compute_empty(10, Positions, NumberEmpty),
    writeln(NumberEmpty),
    rounds_until_idempotent(Positions, Num),

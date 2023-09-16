@@ -180,7 +180,7 @@ length_n_shapes(NumShapes, Moves, Length) :-
    Length is (LengthP1 - 1) + AddLength, !,
    retractall(point(_, _, _)).
 
-:- phrase_from_file(directions(Moves), '../input/day17.txt'),
+:- phrase_from_file(directions(Moves), '2022/input/day17.txt'),
    length_n_shapes(2022, Moves, FirstLength),
    writeln(FirstLength),
    length_n_shapes(1000000000000, Moves, SecondLength),

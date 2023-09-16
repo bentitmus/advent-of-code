@@ -151,7 +151,7 @@ quality_mult([B1, B2, B3|_], QualityMult) :-
    maplist([Blueprint, Quality]>>search(Blueprint, 32, Quality), [B1, B2, B3], [Q1, Q2, Q3]),
    QualityMult is Q1 * Q2 * Q3.
 
-:- phrase_from_file(blueprints(Blueprints), '../input/day19.txt'),
+:- phrase_from_file(blueprints(Blueprints), '2022/input/day19.txt'),
    quality_sum(Blueprints, QualitySum),
    writeln(QualitySum),
    quality_mult(Blueprints, QualityMult),

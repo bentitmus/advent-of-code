@@ -47,7 +47,7 @@ split_pixels(List, [Str|Lines]) :-
    string_codes(Str, Line),
    split_pixels(Rest, Lines).
 
-:- phrase_from_file(instrs(Instrs), '../input/day10.txt'),
+:- phrase_from_file(instrs(Instrs), '2022/input/day10.txt'),
    exec_instrs(update_signal_strength, Instrs, 0, SignalStrength),
    writeln(SignalStrength),
    exec_instrs(add_pixel, Instrs, [], AllPixels),

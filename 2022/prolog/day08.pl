@@ -81,7 +81,7 @@ max_scenic_score(Trees, MaxScore) :-
    all_same(0, TreeScores),
    apply_scoring(Trees, 1, update_scenic_score, TreeScores, max_list, MaxScore).
 
-:- phrase_from_file(trees(Trees), '../input/day08.txt'),
+:- phrase_from_file(trees(Trees), '2022/input/day08.txt'),
    count_all_visible(Trees, Count),
    writeln(Count),
    max_scenic_score(Trees, MaxScore),

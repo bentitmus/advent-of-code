@@ -17,7 +17,7 @@
     )
 
     // Open StreamReader to read lines of the input file
-    ldstr "../input/day01.txt"
+    ldstr "2022/input/day01.txt"
     call class [System.Runtime]System.IO.FileStream [System.Runtime]System.IO.File::OpenRead(string)
     dup
     call class [System.Runtime]System.Text.Encoding [System.Runtime]System.Text.Encoding::get_UTF8()

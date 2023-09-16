@@ -44,7 +44,7 @@ count_valid_assignments(Assignments, Predicate, Count) :-
 
 % Count the total number of assignments where one elf's is contained within the other's
 count_valid_assignments(Count, Predicate) :-
-   phrase_from_file(assignments(Assignments), '../input/day04.txt'),
+   phrase_from_file(assignments(Assignments), '2022/input/day04.txt'),
    count_valid_assignments(Assignments, Predicate, Count).
 
 :- count_valid_assignments(WithinCount, contained_within),

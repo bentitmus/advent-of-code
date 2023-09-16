@@ -81,7 +81,7 @@ count_surface(Cubes, Count) :-
    Count is WaterCount - (22*22*6),
    remove_cubes.
 
-:- phrase_from_file(cubes(Cubes), '../input/day18.txt'),
+:- phrase_from_file(cubes(Cubes), '2022/input/day18.txt'),
    count_all(Cubes, AllCount),
    writeln(AllCount),
    count_surface(Cubes, SurfaceCount),

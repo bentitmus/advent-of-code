@@ -82,7 +82,7 @@ change_specials(List, NewList) :-
    select(monkey(root, equal, Monkey1, Monkey2), TmpList2, TmpList1),
    select(monkey(humn, _), TmpList2, NewList), !.
 
-:- phrase_from_file(monkeys(Monkeys), '../input/day21.txt'),
+:- phrase_from_file(monkeys(Monkeys), '2022/input/day21.txt'),
    find_monkey(Monkeys, root, Root),
    writeln(Root),
    change_specials(Monkeys, MonkeysWithoutSpecials),
