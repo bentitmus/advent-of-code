@@ -2,7 +2,7 @@
 
 My Advent of Code solutions for problems that I've attempted. Primarily these are
 in Prolog. Inputs are encrypted but you should be able to use your own inputs
-by putting them in an `inputs` directory in the year directory.
+by putting them in an `input` directory in the year directory.
 
 ### Prolog
 
