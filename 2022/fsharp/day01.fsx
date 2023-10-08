@@ -3,8 +3,7 @@ let sortedElves =
     |> fun x -> x.TrimEnd()
     |> fun x -> x.Split "\n\n"
     |> Array.map (fun x -> x.Split "\n" |> Array.map int |> Array.sum)
-    |> Array.sort
-    |> Array.rev
+    |> Array.sortDescending
 
 let part1 = sortedElves[0]
 let part2 =

@@ -12,10 +12,9 @@ let part2score (opp, res) =
 
 let scores =
     System.IO.File.ReadAllLines "2022/input/day02.txt"
-    |> Array.map (fun (line:string) ->
-        line
-        |> fun l -> (shiftChar l[0] 'A', shiftChar l[2] 'X')
-        |> fun tup -> (part1score tup, part2score tup)
+    |> Array.map (
+        fun l -> (shiftChar l[0] 'A', shiftChar l[2] 'X')
+        >> fun tup -> (part1score tup, part2score tup)
     )
     |> Array.fold (fun (xAcc, yAcc) (x, y) -> (xAcc + x, yAcc + y)) (0, 0)
 

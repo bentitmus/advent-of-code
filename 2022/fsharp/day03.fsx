@@ -1,18 +1,17 @@
 let rucksacks =
     System.IO.File.ReadAllLines "2022/input/day03.txt"
-    |> Array.map Seq.toList
+    |> Array.map Seq.toArray
 
 let part1groups =
     rucksacks
-    |> Array.map (fun rucksack ->
-        rucksack
-        |> List.splitInto 2
-        |> List.map Set.ofList
+    |> Array.map (
+      Array.splitInto 2
+      >> Array.map Set.ofArray
     )
 
 let part2groups =
     rucksacks
-    |> Array.map Set.ofList
+    |> Array.map Set.ofArray
     |> Array.chunkBySize 3
 
 let priority item =
@@ -22,16 +21,14 @@ let priority item =
     else
         (itemVal + 26) - 64
 
-let findPriorities groupsOfSets =
-    groupsOfSets
-    |> Array.map (fun items ->
-        items
-        |> Set.intersectMany
-        |> Set.toList
-        |> List.head
-        |> priority
+let findPriorities =
+    Array.map (
+        Set.intersectMany
+        >> Set.toList
+        >> List.head
+        >> priority
     )
-    |> Array.sum
+    >> Array.sum
 
 let part1 = findPriorities part1groups
 let part2 = findPriorities part2groups
